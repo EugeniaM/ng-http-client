@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TechnologiesService } from './technologies.service';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,11 @@ export class AppComponent {
       id: this.generateId()
     }
   ];
+
+  constructor(
+    private technologiesService: TechnologiesService
+  ) {}
+
   onAddServer(name: string) {
     this.technologies.push({
       name: name,
@@ -25,6 +31,20 @@ export class AppComponent {
       id: this.generateId()
     });
   }
+
+  save() {
+    this.technologiesService.saveData(this.technologies)
+      .subscribe(
+        (data) => {
+          console.log(data);
+        }
+      );
+  }
+
+  getData() {
+    this.technologiesService.getData().subscribe();
+  }
+
   private generateId() {
     return Math.round(Math.random() * 100);
   }
